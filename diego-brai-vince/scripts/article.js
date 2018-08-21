@@ -37,7 +37,8 @@ Article.prototype.toHtml = function() {
 Article.loadAll = articleData => {
   articleData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)));
   console.log('loadAll inited');
-  articleData.forEach(articleObject => Article.all.push(new Article(articleObject)));
+  articleData.forEach(articleObject => (Article.all.push(new Article(articleObject).toHtml())));
+
 };
 
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
