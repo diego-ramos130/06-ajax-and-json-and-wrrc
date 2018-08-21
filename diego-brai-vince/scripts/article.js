@@ -36,8 +36,7 @@ Article.prototype.toHtml = function() {
 // It's called in the fetchAll function where we get the JSON data if it exists and if it doesn't we set it into the local storage.
 Article.loadAll = articleData => {
   articleData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)));
-  console.log('loadAll inited');
-  articleData.forEach(articleObject => (Article.all.push(new Article(articleObject).toHtml())));
+  articleData.forEach(articleObject => Article.all.push(new Article(articleObject)));
 
 };
 
@@ -49,7 +48,7 @@ Article.fetchAll = () => {
     Article.loadAll(JSON.parse(localStorage.rawData));
 
   } else {
-    $.getJSON('http://127.0.0.1:8080/data/hackerIpsum.json')
+    $.getJSON('data/hackerIpsum.json')
       .then(data => {
         Article.loadAll(data);
         localStorage.setItem('rawData', JSON.stringify(data));
@@ -57,5 +56,6 @@ Article.fetchAll = () => {
   }
   //We got the JSON first and executed it on the promise, which made the most sense to us because it doesn't need to happen immediately.
   //First, though, we load the articles if it already exists in localStorage, because you know, can't be using all this bandwidth to download things we already have.
+  articleView.initIndexPage();
 };
 
